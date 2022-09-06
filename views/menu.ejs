@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+</head>
+<body>
+    <h1>Menu</h1> 
+
+    <input type="button" onclick="location.href='http://localhost:3000/menu/new';" value="Add New" />
+    
+    <table border="1">
+        <tr>
+            <td>No</td>
+            <td>Nama</td>
+            <td>Harga</td>
+            <td>Action</td>
+        </tr>
+        <% DB.forEach(function(data){ %>
+        <tr>
+            <td><%= data.id%></td>
+            <td><%= data.nama%></td>
+            <td><%= data.harga%></td>
+            <td> <a href="/menu/<%= data.id%>/edit">edit</a> <a href="/menu/<%= data.id%>/delete">delete</a> </td>
+        </tr>
+        <% }); %>
+    </table>
+        
+</body>
+</html>
