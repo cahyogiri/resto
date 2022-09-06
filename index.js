@@ -86,15 +86,9 @@ app.get('/menu/:id/delete', function(req, res){
 
 app.post('/menu/:id/delete', function(req, res){
     const deleteid = Number(req.params.id)
-    const deletenama = req.body.nama
-    const deleteharga = req.body.harga
     const deleteall = DB.filter(data => data.id !== deleteid)
     DB = [
-        ... deleteall,{
-            id:deleteid,
-            nama:deletenama,
-            harga:deleteharga
-        }
+        ... deleteall
     ]
     res.redirect("/menu");
 });
