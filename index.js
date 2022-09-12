@@ -19,7 +19,7 @@ let DB = [
     },{
         id:2,
         nama:"nasi campur",
-        harga:"10.000"
+        harga:"11.000"
     }
 ];
 
