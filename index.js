@@ -15,7 +15,7 @@ let DB = [
     },{
         id:1,
         nama:"nasi pecel",
-        harga:"5.000"
+        harga:"6.000"
     },{
         id:2,
         nama:"nasi campur",
