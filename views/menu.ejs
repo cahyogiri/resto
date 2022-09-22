@@ -8,29 +8,40 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 </head>
 <body>
-    <h1>Menu</h1> 
+    <div class="container text-center">
+        <h1>Menu</h1>
+        <div class="container text-end">
+            <input type="button" onclick="location.href='http://localhost:3000/menu/new';" value="Add New" />
+        </div><br>
+        <table class="table table-bordered">
+                <thead>
+                    <tr>
+                      <th scope="col">No</th>
+                      <th scope="col">Nama</th>
+                      <th scope="col">Harga</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <% DB.forEach(function(data){ %>
+                <tbody class="table align-middle">
+                    <tr>
+                        <th scope="row"><%= data.id%></th>
+                        <td><%= data.nama%></td>
+                        <td><%= data.harga%></td>
+                        <td> 
+                            <a href="/menu/<%= data.id%>/edit" class="btn btn-outline-info">Ubah</a>
+                            <a href="/menu/<%= data.id%>/delete" class="btn btn-outline-danger">Hapus</a> 
+                        </td>
+                    </tr>
+                </tbody>
+                <% }); %>
+            </div> 
+        </table>
+    </div>
 
-    <input type="button" onclick="location.href='http://localhost:3000/menu/new';" value="Add New" />
-    
-    <table border="1">
-        <tr>
-            <td>No</td>
-            <td>Nama</td>
-            <td>Harga</td>
-            <td>Action</td>
-        </tr>
-        <% DB.forEach(function(data){ %>
-        <tr>
-            <td><%= data.id%></td>
-            <td><%= data.nama%></td>
-            <td><%= data.harga%></td>
-            <td> 
-                <a href="/menu/<%= data.id%>/edit" class="btn btn-warning">edit</a>
-                <a href="/menu/<%= data.id%>/delete">delete</a> 
-            </td>
-        </tr>
-        <% }); %>
-    </table>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script> 
 </body>
 </html>
+
+
+

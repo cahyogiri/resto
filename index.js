@@ -3,6 +3,7 @@ const app = express();
 app.set('view engine', 'ejs');
 
 const bodyParser = require("body-parser");
+const { application } = require('express');
 const router = express.Router();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -88,6 +89,7 @@ app.post('/menu',(req,res) => {
     })
     res.redirect("/menu");
 });
+
 
 app.get('/menu/:id/edit', function(req, res){
     const idedit = req.params.id
