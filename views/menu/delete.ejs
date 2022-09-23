@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete</title>
+    <%- include('../templat/head'); %>
+</head>
+<body>
+    <div class="container">
+        <div class="text-center">
+            <h1>HAPUS MENU!</h1><br>
+            <form action="/menu/<%= data.id%>/delete" method="post">
+                <p>Apakah anda ingin menghapus menu <%= data.nama%> </p>
+                <p>dengan harga <%= data.harga%> ?</p>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    <button class="btn btn-danger me-md-2" type="submit">Ya!</button>
+                    <button class="btn btn-primary" onclick="location.href='http://localhost:3000/menu';" type="button">Tidak</button>
+                </div>
+            </form>   
+        </div>
+    </div>
+    <%- include('../templat/body'); %>
+</body>
+</html>
+
+

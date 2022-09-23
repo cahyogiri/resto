@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 app.set('view engine', 'ejs');
-
 const bodyParser = require("body-parser");
 const { application } = require('express');
 const router = express.Router();
@@ -69,11 +68,11 @@ app.get('/', function(req, res){
 });
 
 app.get('/menu', function(req, res){
-    res.render("menu", {DB});
+    res.render("menu/index", {DB});
 });
 
 app.get('/menu/new', function(req, res){
-    res.render("new", {DB});
+    res.render("menu/new", {DB});
 });
 
 app.post('/menu',(req,res) => {
@@ -94,7 +93,7 @@ app.post('/menu',(req,res) => {
 app.get('/menu/:id/edit', function(req, res){
     const idedit = req.params.id
     const data = DB.filter(data => data.id == idedit)[0]
-    res.render("edit", {data});
+    res.render("menu/edit", {data});
 });
 
 app.post('/menu/:id/edit', function(req, res){
@@ -115,7 +114,7 @@ app.post('/menu/:id/edit', function(req, res){
 app.get('/menu/:id/delete', function(req, res){
     const iddelete = req.params.id
     const data = DB.filter(data => data.id == iddelete)[0]
-    res.render("delete", {data});
+    res.render("menu/delete", {data});
 });
 
 app.post('/menu/:id/delete', function(req, res){
