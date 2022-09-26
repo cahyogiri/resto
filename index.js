@@ -12,13 +12,13 @@ app.use(bodyParser.json());
 /////////////////////////////////////////////
 /////////////////////////////////////////////
 
-const menu = require('./menu.js');
+const menu = require('./route/menu.js');
 
 app.use('/menu', menu);
 
 
 
-const pelanggan = require('./pelanggan.js');
+const pelanggan = require('./route/pelanggan.js');
 
 app.use('/daftar', pelanggan);
 
