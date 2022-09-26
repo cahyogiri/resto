@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hallo</title>
+    <%- include('../templat/head'); %>
+</head>
+<body>
+    <div class="container">
+        <div class="text-center">
+            <h1>BELAJAR</h1>
+            <p>Membuat CRUD dengan javascript dengan tampilan bootstrap</p>
+            <p>Klik di bawah untuk memulai</p>
+        </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            <button class="btn btn-primary me-md-2" onclick="location.href='http://localhost:3000/menu';" type="button">MENU</button>
+            <button class="btn btn-primary" onclick="location.href='http://localhost:3000/daftar';" type="button">PELANGGAN</button>
+        </div>
+    </div>
+    
+    <%- include('../templat/body'); %> 
+</body>
+</html>
