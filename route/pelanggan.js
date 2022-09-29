@@ -8,39 +8,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
-let DB = [
-    {
-        id:1,
-        nomor:1,
-        jumlah:5,
-        waktu:"03.00",
-        pelayanan:"sudah"
-    },{
-        id:2,
-        nomor:3,
-        jumlah:3,
-        waktu:"04.00",
-        pelayanan:"sudah"
-    },{
-        id:3,
-        nomor:7,
-        jumlah:2,
-        waktu:"04.40",
-        pelayanan:"sudah"
-    },{
-        id:4,
-        nomor:15,
-        jumlah:5,
-        waktu:"05.30",
-        pelayanan:"belum"
-    },{
-        id:5,
-        nomor:11,
-        jumlah:7,
-        waktu:"05.35",
-        pelayanan:"belum"
-    }
-]
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+    host : 'localhost',
+    port:'3306',
+    user : 'root',
+    password : '',
+    database : 'resto'
+});
 
 
 
@@ -50,11 +25,18 @@ let DB = [
 
 
 router.get('/', function(req, res){
-    res.render("pelanggan/index", {DB});
+    connection.query('SELECT * FROM pelanggan' , function (error, results, fields){
+        if (error) console.log(error)
+        let DB = []
+        if(results.length > 0){
+            DB = [...results]
+        }
+        res.render("pelanggan/index", {DB});
+    })
 });
 
 router.get('/new', function(req, res){
-    res.render("pelanggan/new", {DB});
+    res.render("pelanggan/new");
 });
 
 router.post('/', function(req, res){
@@ -62,24 +44,20 @@ router.post('/', function(req, res){
     const tambahjumlah = req.body.jumlah
     const tambahwaktu = req.body.waktu
     const tambahpelayanan = req.body.pelayanan
-    let idterbesar = DB.reduce(
-        (prev,cur)=>prev>cur.id?prev:cur.id,0
-    )
-
-    DB.push({
-        id:idterbesar + 1,
-        nomor:tambahnomor,
-        jumlah:tambahjumlah,
-        waktu:tambahwaktu,
-        pelayanan:tambahpelayanan
-    })
+    const query = `INSERT INTO pelanggan (id, nomor, jumlah, waktu, pelayanan) VALUES (NULL, '${tambahnomor}', '${tambahjumlah}', '${tambahwaktu}', '${tambahpelayanan}')`;
+    connection.query(query , function (error, results, fields) {
+        if (error) console.log(error)
+    });
     res.redirect("/daftar");    
 });
 
 router.get('/:id/edit', function(req, res){
     const ubahid = req.params.id
-    const data = DB.filter(data => data.id == ubahid)[0]
-    res.render("pelanggan/edit", {data});
+    connection.query(`SELECT * FROM pelanggan WHERE id='${ubahid}'` , function (error, results, fields) {
+        if (error) console.log(error)
+        const data = results[0]
+        res.render("pelanggan/edit", {data});
+    });
 });
 
 router.post('/:id/edit', function(req, res){
@@ -88,31 +66,28 @@ router.post('/:id/edit', function(req, res){
     const jumlahubah = req.body.jumlah
     const waktuubah = req.body.waktu
     const pelayananubah = req.body.pelayanan
-    const dataubah = DB.filter(data => data.id !== idubah)
-    DB = [
-        ... dataubah,{
-            id:idubah,
-            nomor:nomorubah,
-            jumlah:jumlahubah,
-            waktu:waktuubah,
-            pelayanan:pelayananubah
-        }
-    ]
+    connection.query(`UPDATE pelanggan SET nomor='${nomorubah}', jumlah='${jumlahubah}', waktu='${waktuubah}', pelayanan='${pelayananubah}' WHERE id='${idubah}'` , function (error, results, fields) {
+        if (error) console.log(error)
+        console.log(results)
+    });
     res.redirect("/daftar");
 });
 
 router.get('/:id/delete', function(req, res){
     const hapusid = req.params.id
-    const data = DB.filter(data => data.id == hapusid)[0]
-    res.render("pelanggan/delete", {data});
-});
+    connection.query(`SELECT * FROM pelanggan WHERE id='${hapusid}'` , function (error, results, fields) {
+        if (error) console.log(error)
+        const data = results[0]
+        res.render("pelanggan/delete", {data});
+    });
+});   
 
 router.post('/:id/delete', function(req,res){
     const idhapus = Number(req.params.id)
-    const hapussemua = DB.filter(data => data.id !== idhapus)
-    DB = [
-        ... hapussemua
-    ]
+    connection.query(`DELETE FROM pelanggan WHERE id='${idhapus}'` , function (error, results, fields) {
+        if (error) console.log(error)
+        console.log(results)
+    });
     res.redirect("/daftar");
 });
 

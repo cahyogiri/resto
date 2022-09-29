@@ -7,23 +7,14 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
-
-let DB = [
-    {id:0,
-        nama:"nasi goreng",
-        harga:"20.000"
-    },{
-        id:1,
-        nama:"nasi pecel",
-        harga:"5.500"
-    },{
-        id:2,
-        nama:"nasi campur",
-        harga:"10.000"
-    }
-];
-
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+    host : 'localhost',
+    port:'3306',
+    user : 'root',
+    password : '',
+    database : 'resto'
+});
 
 
 /////////////////////////////////////////////////
@@ -31,60 +22,67 @@ let DB = [
 
 
 router.get('/', function(req, res){
-    res.render("menu/index", {DB});
+    connection.query('SELECT * FROM menu ' , function (error, results, fields) {
+        if (error) console.log(error)
+        let DB = []
+        if(results.length > 0){
+            DB = [...results]
+        }
+        res.render("menu/index", {DB});
+    });
+
+
 });
 
 router.get('/new', function(req, res){
-    res.render("menu/new", {DB});
+    res.render("menu/new");
 });
 
 router.post('/',(req,res) => {
     const menunama = req.body.nama
     const menuharga = req.body.harga
-    let idterbesar = DB.reduce(
-        (prev,cur)=>prev>cur.id?prev:cur.id,0
-     )
-    DB.push({
-        id:idterbesar + 1,
-        nama:menunama,
-        harga:menuharga
-    })
+    const query = `INSERT INTO menu (id, nama, harga) VALUES (NULL, '${menunama}', '${menuharga}')`;
+    connection.query(query , function (error, results, fields) {
+        if (error) console.log(error)
+    });
     res.redirect("/menu");
 });
 
 router.get('/:id/edit', function(req, res){
     const idedit = req.params.id
-    const data = DB.filter(data => data.id == idedit)[0]
-    res.render("menu/edit", {data});
+    connection.query(`SELECT * FROM menu WHERE id='${idedit}'` , function (error, results, fields) {
+        if (error) console.log(error)
+        const data = results[0]
+        res.render("menu/edit", {data});
+    });
 });
 
 router.post('/:id/edit', function(req, res){
     const editid = Number(req.params.id)
     const editnama = req.body.nama
     const editharga = req.body.harga
-    const dataedit = DB.filter(data => data.id !== editid)
-    DB = [
-        ... dataedit,{
-            id:editid,
-            nama:editnama,
-            harga:editharga
-        }
-    ]
+    connection.query(`UPDATE menu SET nama='${editnama}', harga='${editharga}' WHERE id='${editid}'` , function (error, results, fields) {
+        if (error) console.log(error)
+        console.log(results)
+    });
     res.redirect("/menu");
 });
 
 router.get('/:id/delete', function(req, res){
     const iddelete = req.params.id
-    const data = DB.filter(data => data.id == iddelete)[0]
-    res.render("menu/delete", {data});
+    connection.query(`SELECT * FROM menu  WHERE id='${iddelete}'` , function (error, results, fields) {
+        if (error) console.log(error)
+        const data = results[0]
+        res.render("menu/delete", {data});
+    });
 });
 
 router.post('/:id/delete', function(req, res){
     const deleteid = Number(req.params.id)
-    const deleteall = DB.filter(data => data.id !== deleteid)
-    DB = [
-        ... deleteall
-    ]
+    connection.query(`DELETE FROM menu WHERE id='${deleteid}'` , function (error, results, fields) {
+        if (error) console.log(error)
+        console.log(results)
+    });
     res.redirect("/menu");
 });
 
