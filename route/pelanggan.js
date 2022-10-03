@@ -44,7 +44,7 @@ router.post('/', function(req, res){
     const tambahjumlah = req.body.jumlah
     const tambahwaktu = req.body.waktu
     const tambahpelayanan = req.body.pelayanan
-    const query = `INSERT INTO pelanggan (id, nomor, jumlah, waktu, pelayanan) VALUES (NULL, '${tambahnomor}', '${tambahjumlah}', '${tambahwaktu}', '${tambahpelayanan}')`;
+    const query = `INSERT INTO pelanggan (id, nomor, jumlah, pelayanan) VALUES (NULL, '${tambahnomor}', '${tambahjumlah}', '${tambahpelayanan}')`;
     connection.query(query , function (error, results, fields) {
         if (error) console.log(error)
     });
@@ -66,7 +66,7 @@ router.post('/:id/edit', function(req, res){
     const jumlahubah = req.body.jumlah
     const waktuubah = req.body.waktu
     const pelayananubah = req.body.pelayanan
-    connection.query(`UPDATE pelanggan SET nomor='${nomorubah}', jumlah='${jumlahubah}', waktu='${waktuubah}', pelayanan='${pelayananubah}' WHERE id='${idubah}'` , function (error, results, fields) {
+    connection.query(`UPDATE pelanggan SET nomor='${nomorubah}', jumlah='${jumlahubah}', pelayanan='${pelayananubah}' WHERE id='${idubah}'` , function (error, results, fields) {
         if (error) console.log(error)
         console.log(results)
     });

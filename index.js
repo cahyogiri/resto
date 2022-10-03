@@ -13,14 +13,13 @@ app.use(bodyParser.json());
 /////////////////////////////////////////////
 
 const menu = require('./route/menu.js');
-
 app.use('/menu', menu);
 
-
-
 const pelanggan = require('./route/pelanggan.js');
-
 app.use('/daftar', pelanggan);
+
+const retail = require('./route/retail.js');
+app.use('/retail', retail);
 
 //////////////////////////////////////////////
 

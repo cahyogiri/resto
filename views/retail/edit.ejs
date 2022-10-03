@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit</title>
+    <%- include('../templat/head'); %>
+</head>
+<body>
+    <div class="container">
+        <div class="text-center">
+            <h1>Ubah</h1>
+        </div>
+        <div class="row justify-content-center my-5">
+            <div class="col-lg-6">
+                <form action="/retail/<%= data.id%>/edit" method="post">
+                    <label for="nama" class="form-label">Nama</label>
+                    <input 
+                        type="text" 
+                        id="nama" 
+                        name="nama" 
+                        class="form-control"
+                        value="<%= data.nama%>"
+                    /><br>
+                    <label for="harga_beli" class="form-label">Harga Beli</label>
+                    <input 
+                        type="text" 
+                        id="harga_beli" 
+                        name="harga_beli" 
+                        class="form-control"
+                        value="<%= data.harga_beli%>"
+                    /><br>
+                    <label for="harga_jual" class="form-label">Harga Jual</label>
+                    <input 
+                        type="text" 
+                        id="harga_jual" 
+                        name="harga_jual" 
+                        class="form-control"
+                        value="<%= data.harga_jual%>"
+                    /><br>
+                    
+                    <div class="text-center">
+                        <input type="submit" class="btn btn-info" value="Ubah">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <%- include('../templat/body'); %>
+</body>
+</html>
+
+
+
+

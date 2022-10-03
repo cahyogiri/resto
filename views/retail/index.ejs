@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retail</title>
+    <%- include('../templat/head'); %>
+</head>
+<body>
+    <div class="container text-center">
+        <h1>Produk</h1>
+        <div class="container text-end">
+            <input type="button" class="btn btn-outline-primary" onclick="location.href='http://localhost:3000/retail/new';" value="Tambah" />
+        </div><br>
+        <table class="table table-bordered">
+            <div>
+                <thead>
+                    <tr>
+                      <th scope="col">No</th>
+                      <th scope="col">Nama</th>
+                      <th scope="col">Harga Beli</th>
+                      <th scope="col">Harga Jual</th>
+                      <th scope="col"></th>
+                    </tr>
+                </thead>
+                <% DB.forEach(function(data){ %>
+                <tbody class="table align-middle">
+                    <tr>
+                        <th scope="row"><%= data.id%></th>
+                        <td><%= data.nama%></td>
+                        <td><%= data.harga_beli%></td>
+                        <td><%= data.harga_jual%></td>
+                        <td> 
+                            <a href="/retail/<%= data.id%>/edit" class="btn btn-outline-info">Ubah</a>
+                            <a href="/retail/<%= data.id%>/delete" class="btn btn-outline-danger">Hapus</a> 
+                        </td>
+                    </tr>
+                </tbody>
+                <% }); %>
+            </div> 
+        </table>
+    </div>
+
+    <%- include('../templat/body'); %>
+</body>
+</html>
+
+
+

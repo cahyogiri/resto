@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete</title>
+    <%- include('../templat/head'); %>
+</head>
+<body>
+    <div class="container">
+        <div class="text-center">
+            <h1>HAPUS PRODUK!</h1><br>
+            <form action="/retail/<%= data.id%>/delete" method="post">
+                <p>Apakah anda ingin menghapus produk <%= data.nama%> </p>
+                <p>dengan harga beli <%= data.harga_beli%> dan harga jual <%= data.harga_jual%> ?</p>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    <button class="btn btn-danger me-md-2" type="submit">Ya!</button>
+                    <button class="btn btn-primary me-md-2" onclick="location.href='http://localhost:3000/retail';" type="button">Tidak</button>
+                </div>
+            </form>   
+        </div>
+    </div>
+    <%- include('../templat/body'); %>
+</body>
+</html>
+
+
