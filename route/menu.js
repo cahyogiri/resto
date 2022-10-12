@@ -3,6 +3,8 @@ const app = express();
 const bodyParser = require("body-parser");
 const { application } = require('express');
 const router = express.Router();
+var createError = require('http-errors');
+var path = require('path');
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -35,17 +37,54 @@ router.get('/', function(req, res){
 });
 
 router.get('/new', function(req, res){
-    res.render("menu/new");
+    res.render("menu/new"), {
+        nama: '',
+        harga: ''
+    }
 });
 
-router.post('/',(req,res) => {
-    const menunama = req.body.nama
-    const menuharga = req.body.harga
-    const query = `INSERT INTO menu (id, nama, harga) VALUES (NULL, '${menunama}', '${menuharga}')`;
-    connection.query(query , function (error, results, fields) {
-        if (error) console.log(error)
-    });
-    res.redirect("/menu");
+router.post('/', function(req, res, next) {
+    const nama = req.body.nama;
+    const harga = req.body.harga;
+    let errors = false;
+
+    if(nama.length === 0) {
+        errors = true;
+        req.flash('error_nama', "Silahkan Masukkan Nama");
+        res.render('menu/new', {
+            nama: nama,
+            harga: harga
+        })
+    }
+    
+    if(harga.length === 0) {
+        errors = true;
+        req.flash('error_harga', "Silahkan Masukkan Harga");
+        res.render('menu/new', {
+            nama: nama,
+            harga: harga
+        })
+    }
+
+    if(!errors) {
+        let fromData = {
+            nama: nama,
+            harga: harga
+        }
+
+        connection.query('INSERT INTO menu SET ?', fromData, function(err, result) {
+            if (err) {
+                req.flash('error', err)
+                res.render('menu/new', {
+                    nama: fromData.nama,
+                    harga: fromData.harga
+                })
+            } else {
+                req.flash('success', ' Data Berhasil Disimpan');
+                res.redirect('/menu');
+            }
+        })
+    }
 });
 
 router.get('/:id/edit', function(req, res){
