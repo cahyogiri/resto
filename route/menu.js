@@ -22,18 +22,20 @@ var connection = mysql.createConnection({
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 
-
-router.get('/', function(req, res, next){
-    connection.query('SELECT * FROM menu ' , function (error, results, fields) {
-        if (error) console.log(error)
-        let DB = []
-        if(results.length > 0){
-            DB = [...results]
+//index
+router.get('/', function (req, res, next) {
+    connection.query('SELECT * FROM menu ORDER BY id desc', function (err, rows) {
+        if (err) {
+            req.flash('error', err);
+            res.render('menu', {
+                data: ''
+            });
+        } else {
+            res.render('menu/index', {
+                data: rows 
+            });
         }
-        res.render("menu/index", {DB});
     });
-
-
 });
 
 // New
@@ -45,49 +47,49 @@ router.get('/new', function(req, res, next){
     }
 });
 
-router.post('/', function(req, res, next) {
+router.post('/', function (req, res, next) {
     const nama  = req.body.nama;
     const harga = req.body.harga;
-    let errors = false;
+    let errors  = false;
 
     if(nama.length === 0) {
         errors = true;
         req.flash('error_nama', "Silahkan Masukkan Nama");
-        res.render('menu/new', {
-            nama:   nama,
-            harga:  harga
-        })
     }
-    
+
     if(harga.length === 0) {
         errors = true;
         req.flash('error_harga', "Silahkan Masukkan Harga");
+    }
+
+    if( errors ) {
         res.render('menu/new', {
-            nama:   nama,
-            harga:  harga
+            nama: nama,
+            harga: harga                    
         })
     }
 
     if( !errors ) {
-        let fromData = {
+
+        let formData = {
             nama: nama,
             harga: harga
         }
-
-        connection.query('INSERT INTO menu SET ?', fromData, function(err, result) {
+        
+        connection.query('INSERT INTO menu SET ?', formData, function(err, result) {
             if (err) {
                 req.flash('error', err)
                 res.render('menu/new', {
-                    nama:   fromData.nama,
-                    harga:  fromData.harga
+                    nama: formData.nama,
+                    harga: formData.harga                    
                 })
-            } else {
-                req.flash('success', ' Data Berhasil Disimpan');
+            } else {                
+                req.flash('success', 'Data Berhasil Disimpan!');
                 res.redirect('/menu');
             }
         })
     }
-});
+})
 
 // Edit
 
@@ -98,7 +100,7 @@ router.get('/(:id)/edit', function(req, res, next){
         if(err) throw err
          
         if (rows.length <= 0) {
-            req.flash('error', 'Data Post Dengan ID ' + id + " Tidak Ditemukan")
+            req.flash('error', 'Data Dengan ID ' + id + " Tidak Ditemukan")
             res.redirect('/menu')
         }
         else {
@@ -153,35 +155,48 @@ router.post('/:id/edit', function(req, res, next){
                     harga:  formData.harga
                 })
             } else {
-                req.flash('success', 'Data Berhasil Diupdate!');
+                req.flash('success', 'Data Berhasil Diubah!');
                 res.redirect('/menu');
             }
         })
     }
 });
 
-router.get('/:id/delete', function(req, res, next){
-    const iddelete = req.params.id
-    connection.query(`SELECT * FROM menu  WHERE id='${iddelete}'` , function (error, results, fields) {
-        if (error) console.log(error)
-        const data = results[0]
-        res.render("menu/delete", {data});
-    });
+//Delete
+
+router.get('/(:id)/delete', function(req, res, next){
+    let id = req.params.id;
+   
+    connection.query('SELECT * FROM menu WHERE id = ' + id, function(err, rows, fields) {
+        if(err) throw err
+         
+        if (rows.length <= 0) {
+            req.flash('error', 'Data Dengan ID ' + id + " Tidak Ditemukan")
+            res.redirect('/menu')
+        }
+        else {
+            res.render('menu/delete', {
+                id:     rows[0].id,
+                nama:   rows[0].nama,
+                harga:  rows[0].harga
+            })
+        }
+    })
 });
 
-router.post('/:id/delete', function(req, res, next){
-    const deleteid = Number(req.params.id)
-    connection.query(`DELETE FROM menu WHERE id='${deleteid}'` , function (error, results, fields) {
-        if (error) console.log(error)
-        console.log(results)
-    });
-    res.redirect("/menu");
-});
-
-
-
-
-
+router.post('/:id/delete', function(req, res, next) {
+    let id = req.params.id;
+     
+    connection.query('DELETE FROM menu WHERE id = ' + id, function(err, result) {
+        if (err) {
+            req.flash('error', err)
+            res.redirect('/menu')
+        } else {
+            req.flash('success', 'Data Berhasil Dihapus!')
+            res.redirect('/menu')
+        }
+    })
+})
 
 
 module.exports = router;

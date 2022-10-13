@@ -7,19 +7,29 @@
     <title>Delete</title>
     <%- include('../templat/head'); %>
 </head>
-<body>
-    <div class="container">
-        <div class="text-center">
-            <h1>HAPUS MENU!</h1><br>
-            <form action="/menu/<%= data.id%>/delete" method="post">
-                <p>Apakah anda ingin menghapus menu <%= data.nama%> </p>
-                <p>dengan harga <%= data.harga%> ?</p>
+<body style="background: lightgray" class="text-center" >
 
-                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                    <button class="btn btn-danger me-md-2" type="submit">Ya!</button>
-                    <button class="btn btn-primary" onclick="location.href='http://localhost:3000/menu';" type="button">Tidak</button>
+    <div class="container mt-5 ">
+        <div class="text-center">
+            <div class="row">
+                <div class="col-md-15">
+                    <div class="card border-0 shadow rounded">
+                        <div class="card-body">
+                            <h1>HAPUS MENU!</h1><br>
+                            <form action="/menu/<%= id %>/delete" method="post">
+                                <div class="form-group">
+                                    <p>Apakah anda ingin menghapus menu [ <%= nama %> ] </p>
+                                    <p>dengan harga [ <%= harga %> ] ?</p>
+                                </div><br>
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                                    <button class="btn btn-danger me-md-2" type="submit">! YA !</button>
+                                    <button class="btn btn-primary" onclick="location.href='http://localhost:3000/menu';" type="button">TIDAK</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </form>   
+            </div>
         </div>
     </div>
     <%- include('../templat/body'); %>
