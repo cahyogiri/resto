@@ -47,29 +47,29 @@ router.get('/new', function(req, res, next){
     }
 });
 
-router.post('/', function (req, res, next) {
-    const nama  = req.body.nama;
+router.post('/', function(req, res, next) {
+    const nama = req.body.nama;
     const harga = req.body.harga;
-    let errors  = false;
+    let errors = false;
 
     if(nama.length === 0) {
         errors = true;
         req.flash('error_nama', "Silahkan Masukkan Nama");
     }
-
+    
     if(harga.length === 0) {
         errors = true;
         req.flash('error_harga', "Silahkan Masukkan Harga");
     }
 
-    if( errors ) {
+    if(errors) {
         res.render('menu/new', {
             nama: nama,
             harga: harga                    
         })
     }
 
-    if( !errors ) {
+    if(!errors) {
 
         let formData = {
             nama: nama,
@@ -80,8 +80,8 @@ router.post('/', function (req, res, next) {
             if (err) {
                 req.flash('error', err)
                 res.render('menu/new', {
-                    nama: formData.nama,
-                    harga: formData.harga                    
+                    title: formData.title,
+                    content: formData.content                    
                 })
             } else {                
                 req.flash('success', 'Data Berhasil Disimpan!');
@@ -89,7 +89,7 @@ router.post('/', function (req, res, next) {
             }
         })
     }
-})
+});
 
 // Edit
 
