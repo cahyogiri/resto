@@ -14,23 +14,29 @@
         </div>
         <div class="row justify-content-center my-5">
             <div class="col-lg-6">
-                <form action="/menu/<%= data.id%>/edit" method="post">
+                <form action="/menu/<%= id %>/edit" method="post">
                     <label for="nama" class="form-label">Nama</label>
                     <input 
                         type="text" 
-                        id="nama" 
+                        
                         name="nama" 
                         class="form-control"
-                        value="<%= data.nama%>"
-                    /><br>
+                        value="<%= nama %>"
+                    />
+                    <% if (messages.error_nama) { %>
+                        <div class="alert alert-danger" role="alert"><%- messages.error_nama %></div>
+                    <% } %><br>
                     <label for="harga" class="form-label">Harga</label>
                     <input 
                         type="text" 
-                        id="harga" 
+                        
                         name="harga" 
                         class="form-control"
-                        value="<%= data.harga%>"
-                    /><br>
+                        value="<%= harga %>"
+                    />
+                    <% if (messages.error_harga) { %>
+                        <div class="alert alert-danger" role="alert"><%- messages.error_harga %></div>
+                    <% } %><br>
                     
                     <div class="text-center">
                         <input type="submit" class="btn btn-info" value="Ubah">

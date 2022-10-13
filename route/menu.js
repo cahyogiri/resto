@@ -23,7 +23,7 @@ var connection = mysql.createConnection({
 /////////////////////////////////////////////////
 
 
-router.get('/', function(req, res){
+router.get('/', function(req, res, next){
     connection.query('SELECT * FROM menu ' , function (error, results, fields) {
         if (error) console.log(error)
         let DB = []
@@ -36,7 +36,9 @@ router.get('/', function(req, res){
 
 });
 
-router.get('/new', function(req, res){
+// New
+
+router.get('/new', function(req, res, next){
     res.render("menu/new"), {
         nama: '',
         harga: ''
@@ -44,7 +46,7 @@ router.get('/new', function(req, res){
 });
 
 router.post('/', function(req, res, next) {
-    const nama = req.body.nama;
+    const nama  = req.body.nama;
     const harga = req.body.harga;
     let errors = false;
 
@@ -52,8 +54,8 @@ router.post('/', function(req, res, next) {
         errors = true;
         req.flash('error_nama', "Silahkan Masukkan Nama");
         res.render('menu/new', {
-            nama: nama,
-            harga: harga
+            nama:   nama,
+            harga:  harga
         })
     }
     
@@ -61,12 +63,12 @@ router.post('/', function(req, res, next) {
         errors = true;
         req.flash('error_harga', "Silahkan Masukkan Harga");
         res.render('menu/new', {
-            nama: nama,
-            harga: harga
+            nama:   nama,
+            harga:  harga
         })
     }
 
-    if(!errors) {
+    if( !errors ) {
         let fromData = {
             nama: nama,
             harga: harga
@@ -76,8 +78,8 @@ router.post('/', function(req, res, next) {
             if (err) {
                 req.flash('error', err)
                 res.render('menu/new', {
-                    nama: fromData.nama,
-                    harga: fromData.harga
+                    nama:   fromData.nama,
+                    harga:  fromData.harga
                 })
             } else {
                 req.flash('success', ' Data Berhasil Disimpan');
@@ -87,27 +89,78 @@ router.post('/', function(req, res, next) {
     }
 });
 
-router.get('/:id/edit', function(req, res){
-    const idedit = req.params.id
-    connection.query(`SELECT * FROM menu WHERE id='${idedit}'` , function (error, results, fields) {
-        if (error) console.log(error)
-        const data = results[0]
-        res.render("menu/edit", {data});
-    });
+// Edit
+
+router.get('/(:id)/edit', function(req, res, next){
+    let id = req.params.id;
+   
+    connection.query('SELECT * FROM menu WHERE id = ' + id, function(err, rows, fields) {
+        if(err) throw err
+         
+        if (rows.length <= 0) {
+            req.flash('error', 'Data Post Dengan ID ' + id + " Tidak Ditemukan")
+            res.redirect('/menu')
+        }
+        else {
+            res.render('menu/edit', {
+                id:     rows[0].id,
+                nama:   rows[0].nama,
+                harga:  rows[0].harga
+            })
+        }
+    })
 });
 
-router.post('/:id/edit', function(req, res){
-    const editid = Number(req.params.id)
-    const editnama = req.body.nama
-    const editharga = req.body.harga
-    connection.query(`UPDATE menu SET nama='${editnama}', harga='${editharga}' WHERE id='${editid}'` , function (error, results, fields) {
-        if (error) console.log(error)
-        console.log(results)
-    });
-    res.redirect("/menu");
+router.post('/:id/edit', function(req, res, next){
+    const id      = req.params.id;
+    const nama    = req.body.nama;
+    const harga   = req.body.harga;
+    let errors  = false;
+
+    if(nama.length === 0) {
+        errors = true;
+        req.flash('error_nama', "Silahkan Masukkan Nama");
+        res.render('menu/edit', {
+            id:         req.params.id,
+            nama:       nama,
+            harga:      harga
+        })
+    }
+
+    if(harga.length === 0) {
+        errors = true;
+        req.flash('error_harga', "Silahkan Masukkan Harga");
+        res.render('menu/edit', {
+            id:         req.params.id,
+            nama:       nama,
+            harga:      harga
+        })
+    }
+
+    if( !errors ) {   
+ 
+        let formData = {
+            nama: nama,
+            harga: harga
+        }
+
+        connection.query('UPDATE menu SET ? WHERE id = ' + id, formData, function(err, result) {
+            if (err) {
+                req.flash('error', err)
+                res.render('menu/edit', {
+                    id:     req.params.id,
+                    nama:   formData.nama,
+                    harga:  formData.harga
+                })
+            } else {
+                req.flash('success', 'Data Berhasil Diupdate!');
+                res.redirect('/menu');
+            }
+        })
+    }
 });
 
-router.get('/:id/delete', function(req, res){
+router.get('/:id/delete', function(req, res, next){
     const iddelete = req.params.id
     connection.query(`SELECT * FROM menu  WHERE id='${iddelete}'` , function (error, results, fields) {
         if (error) console.log(error)
@@ -116,7 +169,7 @@ router.get('/:id/delete', function(req, res){
     });
 });
 
-router.post('/:id/delete', function(req, res){
+router.post('/:id/delete', function(req, res, next){
     const deleteid = Number(req.params.id)
     connection.query(`DELETE FROM menu WHERE id='${deleteid}'` , function (error, results, fields) {
         if (error) console.log(error)
