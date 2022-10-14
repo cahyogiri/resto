@@ -54,20 +54,28 @@ router.post('/', function(req, res, next) {
 
     if(nama.length === 0) {
         errors = true;
-        req.flash('error_nama', "Silahkan Masukkan Nama");
+        req.flash('error_nama', "Silahkan Masukkan Nama")
+        res.render('menu/new', {
+            nama: nama,
+            harga: harga
+        })
     }
     
     if(harga.length === 0) {
         errors = true;
         req.flash('error_harga', "Silahkan Masukkan Harga");
-    }
-
-    if(errors) {
         res.render('menu/new', {
             nama: nama,
-            harga: harga                    
+            harga: harga
         })
     }
+
+    // if(errors) {
+    //     req.render('menu/new', {
+    //         nama: nama,
+    //         harga: harga
+    //     })
+    // }
 
     if(!errors) {
 
@@ -84,7 +92,7 @@ router.post('/', function(req, res, next) {
                     content: formData.content                    
                 })
             } else {                
-                req.flash('success', 'Data Berhasil Disimpan!');
+                req.flash('success', 'Data Berhasil Ditambah!');
                 res.redirect('/menu');
             }
         })
