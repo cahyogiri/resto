@@ -7,47 +7,61 @@
     <title>New</title>
     <%- include('../templat/head'); %>
 </head>
-<body>
-    <div class="container">
+<body style="background: lightgray">
+    <div class="container mt-5">
         <div class="text-center">
-            <h1>Tambah Produk</h1>
+            <h1>TAMBAH PRODUK</h1>
         </div>
-        <div class="row justify-content-center my-5">
-            <div class="col-lg-6">
-                <form action="/retail" method="post">
-                    <label for="nama" class="form-label">Nama</label>
-                     <input 
-                        type="text" 
-                        id="nama" 
-                        name="nama" 
-                        class="form-control"
-                    /><br>
-                    <label for="harga_beli" class="form-label">Harga Beli</label>
-                    <input 
-                        type="text" 
-                        id="harga_beli" 
-                        name="harga_beli" 
-                        class="form-control"
-                    /><br>
-                    <label for="harga_jual" class="form-label">Harga Jual</label>
-                    <input 
-                        type="text" 
-                        id="harga_jual" 
-                        name="harga_jual" 
-                        class="form-control"
-                    /><br>
-
-                    <div class="text-center">
-                         <input type="submit" class="btn btn-primary" value="Tambah">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card border-0 shadow rounded">
+                    <div class="card-body">
+                        <form action="/retail" method="post">
+                            <div class="form-group">
+                                <label for="nama" class="form-label">Nama</label>
+                                <input 
+                                    type="text" 
+                                    id="nama"
+                                    name="nama" 
+                                    class="form-control"
+                                 />
+                                <% if (messages.error_nama) { %>
+                                <div class="alert alert-danger" role="alert"><%- messages.error_nama %></div>
+                                <% } %><br>
+                            </div>
+                            <div class="form-group">
+                                <label for="harga_beli" class="form-label">Harga Beli</label>
+                                <input 
+                                    type="text" 
+                                    id="harga_beli"
+                                    name="harga_beli" 
+                                    class="form-control"
+                                />
+                                <% if (messages.error_hargabeli) { %>
+                                <div class="alert alert-danger" role="alert"><%- messages.error_hargabeli %></div>
+                                <% } %><br>
+                            </div>
+                            <div class="form-group">
+                                <label for="harga_jual" class="form-label">Harga Jual</label>
+                                <input 
+                                    type="text" 
+                                    id="harga_jual"
+                                    name="harga_jual" 
+                                    class="form-control"
+                                />
+                                <% if (messages.error_hargajual) { %>
+                                <div class="alert alert-danger" role="alert"><%- messages.error_hargajual %></div>
+                                <% } %><br>
+                            </div>
+                            <button type="submit" class="btn btn-primary">TAMBAH</button>
+                            <a href="/retail" class="btn btn-md btn-secondary">BATAL</a>
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
- 
     </div>
     <%- include('../templat/body'); %>
 </body>
 </html>
-
-
 

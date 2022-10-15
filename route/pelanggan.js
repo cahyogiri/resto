@@ -3,6 +3,8 @@ const app = express();
 const bodyParser = require("body-parser");
 const { application } = require('express');
 const router = express.Router();
+var createError = require('http-errors');
+var path = require('path');
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -22,34 +24,96 @@ var connection = mysql.createConnection({
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 
+//index
 
-
-router.get('/', function(req, res){
-    connection.query('SELECT * FROM pelanggan' , function (error, results, fields){
-        if (error) console.log(error)
-        let DB = []
-        if(results.length > 0){
-            DB = [...results]
+router.get('/', function (req, res, next) {
+    connection.query('SELECT * FROM pelanggan ORDER BY id desc', function (err, rows) {
+        if (err) {
+            req.flash('error', err);
+            res.render('pelanggan', {
+                data: ''
+            });
+        } else {
+            res.render('pelanggan/index', {
+                data: rows 
+            });
         }
-        res.render("pelanggan/index", {DB});
-    })
-});
-
-router.get('/new', function(req, res){
-    res.render("pelanggan/new");
-});
-
-router.post('/', function(req, res){
-    const tambahnomor = req.body.nomor
-    const tambahjumlah = req.body.jumlah
-    const tambahwaktu = req.body.waktu
-    const tambahpelayanan = req.body.pelayanan
-    const query = `INSERT INTO pelanggan (id, nomor, jumlah, pelayanan) VALUES (NULL, '${tambahnomor}', '${tambahjumlah}', '${tambahpelayanan}')`;
-    connection.query(query , function (error, results, fields) {
-        if (error) console.log(error)
     });
-    res.redirect("/daftar");    
 });
+
+// New
+
+router.get('/new', function(req, res, ){
+    res.render("pelanggan/new"), {
+        nomor: '',
+        jumlah: '',
+        waktu: '',
+        pelayanan: ''
+    };
+});
+
+router.post('/', function(req, res, next) {
+    const nomor     = req.body.nomor;
+    const jumlah    = req.body.jumlah;
+    const waktu     = req.body.waktu;
+    const pelayanan = req.body.pelayanan;
+    let errors      = false;
+
+    if(nomor.length === 0) {
+        errors = true;
+        req.flash('error_nomor', "Silahkan Isi Nomor Meja")
+    }
+
+    if(nomor.length === 0) {
+        errors = true;
+        req.flash('error_jumlah', "Silahkan Isi Jumlah Pengunjung")
+    }
+
+    if(errors) {
+        res.render('daftar/new', {
+           nomor    : nomor,
+           jumlah   : jumlah,
+           pelayanan: pelayanan
+        })
+    }
+
+    if(!errors) {
+
+        let formData = {
+            nomor    : nomor,
+            jumlah   : jumlah,
+            waktu    : waktu,
+            pelayanan: pelayanan
+        }
+        
+        connection.query('INSERT INTO pelanggan SET ?', formData, function(err, result) {
+            if (err) {
+                req.flash('error', err)
+                res.render('daftar/new', {
+                    nomor       : formData.nama,
+                    jumlah      : formData.harga,
+                    waktu       : formData.waktu,
+                    pelayanan   : formData.pelayanan                    
+                })
+            } else {                
+                req.flash('success', 'Data Berhasil Ditambah!');
+                res.redirect('/daftar');
+            }
+        })
+    }
+})
+
+// router.post('/', function(req, res){
+//     const tambahnomor = req.body.nomor
+//     const tambahjumlah = req.body.jumlah
+//     const tambahwaktu = req.body.waktu
+//     const tambahpelayanan = req.body.pelayanan
+//     const query = `INSERT INTO pelanggan (id, nomor, jumlah, pelayanan) VALUES (NULL, '${tambahnomor}', '${tambahjumlah}', '${tambahpelayanan}')`;
+//     connection.query(query , function (error, results, fields) {
+//         if (error) console.log(error)
+//     });
+//     res.redirect("/daftar");    
+// });
 
 router.get('/:id/edit', function(req, res){
     const ubahid = req.params.id

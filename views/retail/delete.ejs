@@ -7,23 +7,31 @@
     <title>Delete</title>
     <%- include('../templat/head'); %>
 </head>
-<body>
-    <div class="container">
-        <div class="text-center">
-            <h1>HAPUS PRODUK!</h1><br>
-            <form action="/retail/<%= data.id%>/delete" method="post">
-                <p>Apakah anda ingin menghapus produk <%= data.nama%> </p>
-                <p>dengan harga beli <%= data.harga_beli%> dan harga jual <%= data.harga_jual%> ?</p>
+<body style="background: lightgray" class="text-center" >
 
-                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                    <button class="btn btn-danger me-md-2" type="submit">Ya!</button>
-                    <button class="btn btn-primary me-md-2" onclick="location.href='http://localhost:3000/retail';" type="button">Tidak</button>
+    <div class="container mt-5 ">
+        <div class="text-center">
+            <div class="row">
+                <div class="col-md-15">
+                    <div class="card border-0 shadow rounded">
+                        <div class="card-body">
+                            <h1>HAPUS PRODUK!</h1><br>
+                            <form action="/retail/<%= id %>/delete" method="post">
+                                <div class="form-group">
+                                    <p>Apakah anda ingin menghapus produk ( <%= nama %> ) </p>
+                                    <p>dengan harga beli ( <%= harga_beli %> ) dan harga jual ( <%= harga_jual %> ) ?</p>
+                                </div><br>
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                                    <button class="btn btn-danger me-md-2" type="submit">! YA !</button>
+                                    <a href="/retail" class="btn btn-md btn-primary">BATAL</a>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </form>   
+            </div>
         </div>
     </div>
     <%- include('../templat/body'); %>
 </body>
 </html>
-
 

@@ -7,44 +7,68 @@
     <title>Retail</title>
     <%- include('../templat/head'); %>
 </head>
-<body>
-    <div class="container text-center">
-        <h1>Produk</h1>
-        <div class="container text-end">
-            <input type="button" class="btn btn-outline-primary" onclick="location.href='http://localhost:3000/retail/new';" value="Tambah" />
-        </div><br>
-        <table class="table table-bordered">
-            <div>
-                <thead>
-                    <tr>
-                      <th scope="col">No</th>
-                      <th scope="col">Nama</th>
-                      <th scope="col">Harga Beli</th>
-                      <th scope="col">Harga Jual</th>
-                      <th scope="col"></th>
-                    </tr>
-                </thead>
-                <% DB.forEach(function(data){ %>
-                <tbody class="table align-middle">
-                    <tr>
-                        <th scope="row"><%= data.id%></th>
-                        <td><%= data.nama%></td>
-                        <td><%= data.harga_beli%></td>
-                        <td><%= data.harga_jual%></td>
-                        <td> 
-                            <a href="/retail/<%= data.id%>/edit" class="btn btn-outline-info">Ubah</a>
-                            <a href="/retail/<%= data.id%>/delete" class="btn btn-outline-danger">Hapus</a> 
-                        </td>
-                    </tr>
-                </tbody>
-                <% }); %>
-            </div> 
-        </table>
+<body style="background: lightgray">
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+
+                <% if (messages.success) { %>
+                    <div class="alert alert-success" role="alert"><%- messages.success %></div>
+                <% } %>
+                
+                <% if (messages.error) { %>
+                    <div class="alert alert-danger" role="alert"><%- messages.error %></div>
+                <% } %>
+
+                <div class="card border-0 shadow rounded">
+                    <div class="card-body">
+                        <h1 class="text-center">PRODUK</h1>
+                        <a href="retail/new" class="btn btn-md btn-success mb-3">TAMBAH</a>
+                        <table class="table table-bordered">
+                            <thead>
+                              <tr class="text-center">
+                                <th scope="col">NO.</th>
+                                <th scope="col">NAMA</th>
+                                <th scope="col">HARGA BELI</th>
+                                <th scope="col">HARGA JUAL</th>
+                                <th scope="col"></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <% if(data.length){
+                                    
+                                    for(var i = 0; i< data.length; i++) {%>  
+                                        <tr class="text-center">
+                                            <th scope="row"><%= (i+1) %></th>
+                                            <td><%= data[i].nama%></td>
+                                            <td><%= data[i].harga_beli%></td>
+                                            <td><%= data[i].harga_jual%></td>
+                                            <td class="text-center">
+                                                <a href="/retail/<%=data[i].id%>/edit" class="btn btn-sm btn-primary">EDIT</a>
+                                                <a href="/retail/<%=data[i].id%>/delete" class="btn btn-sm btn-danger">HAPUS</a>
+                                            </td>
+                                        </tr>
+                                    <% }
+                                    
+                                }else{ %>
+                                    <tr>
+                                        <td colspan="4">
+                                            <div class="alert alert-danger" role="alert">
+                                                Data Tidak Ditemukan !
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% } %>    
+                            </tbody>
+                        </table>  
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <%- include('../templat/body'); %>
 </body>
 </html>
-
-
 

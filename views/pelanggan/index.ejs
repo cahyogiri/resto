@@ -7,40 +7,67 @@
     <title>Daftar</title>
     <%- include('../templat/head'); %>
 </head>
-<body>
-    <div class="container text-center">
-        <h1>Daftar Pengunjung</h1>
-        <div class="container text-end">
-            <input type="button" class="btn btn-outline-primary" onclick="location.href='http://localhost:3000/daftar/new';" value="Tambah" />
-        </div><br>
-        <table class="table table-bordered">
-                <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Nomor Meja</th>
-                      <th scope="col">Jumlah Orang</th>
-                      <th scope="col">Waktu Datang</th>
-                      <th scope="col">Pelayanan</th>
-                      <th scope="col"></th>
-                    </tr>
-                </thead>
-                <% DB.forEach(function(data){ %>
-                <tbody class="table align-middle">
-                    <tr>
-                        <th scope="row"><%= data.id%></th>
-                        <td><%= data.nomor%></td>
-                        <td><%= data.jumlah%></td>
-                        <td><%= data.waktu%></td>
-                        <td><%= data.pelayanan%></td>
-                        <td> 
-                            <a href="/daftar/<%= data.id%>/edit" class="btn btn-outline-info">Ubah</a>
-                            <a href="/daftar/<%= data.id%>/delete" class="btn btn-outline-danger">Hapus</a> 
-                        </td>
-                    </tr>
-                </tbody>
-                <% }); %>
-            </div> 
-        </table>
+<body style="background: lightgray">
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+
+                <% if (messages.success) { %>
+                    <div class="alert alert-success" role="alert"><%- messages.success %></div>
+                <% } %>
+                
+                <% if (messages.error) { %>
+                    <div class="alert alert-danger" role="alert"><%- messages.error %></div>
+                <% } %>
+
+                <div class="card border-0 shadow rounded">
+                    <div class="card-body">
+                        <h1 class="text-center">DAFTAR PENGUNJUNG</h1>
+                        <a href="daftar/new" class="btn btn-md btn-success mb-3">TAMBAH</a>
+                        <table class="table table-bordered">
+                            <thead>
+                              <tr class="text-center">
+                                <th scope="col">#</th>
+                                <th scope="col">Nomor Meja</th>
+                                <th scope="col">Jumlah Orang</th>
+                                <th scope="col">Waktu Datang</th>
+                                <th scope="col">Pelayanan</th>
+                                <th scope="col"></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <% if(data.length){
+                                    
+                                    for(var i = 0; i< data.length; i++) {%>  
+                                        <tr class="text-center">
+                                            <th scope="row"><%= (i+1) %></th>
+                                            <td><%= data[i].nomor%></td>
+                                            <td><%= data[i].jumlah%></td>
+                                            <td><%= data[i].waktu%></td>
+                                            <td><%= data[i].pelayanan%></td>
+                                            <td class="text-center">
+                                                <a href="/daftar/<%=data[i].id%>/edit" class="btn btn-sm btn-primary">EDIT</a>
+                                                <a href="/daftar/<%=data[i].id%>/delete" class="btn btn-sm btn-danger">HAPUS</a>
+                                            </td>
+                                        </tr>
+                                    <% }
+                                    
+                                }else{ %>
+                                    <tr>
+                                        <td colspan="4">
+                                            <div class="alert alert-danger" role="alert">
+                                                Data Tidak Ditemukan !
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% } %>    
+                            </tbody>
+                        </table>  
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <%- include('../templat/body'); %>

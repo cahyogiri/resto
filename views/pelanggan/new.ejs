@@ -4,53 +4,59 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New</title>
+    <title>PELANGGAN BARU</title>
     <%- include('../templat/head'); %>
 </head>
-<body>
-    <div class="container">
+<body style="background: lightgray">
+    <div class="container mt-5">
         <div class="text-center">
-            <h1>Pelanggan Baru</h1>
+            <h1>PELANGGAN BARU</h1>
         </div>
-            <div class="row justify-content-center my-5">
-                <div class="col-lg-6">
-                    <form action="/daftar" method="post">
-                        <label for="nomor" class="form-label">Nomor Meja</label>
-                        <input 
-                            type="text" 
-                            id="nomor" 
-                            name="nomor" 
-                            class="form-control"
-                        /><br>
-                        <label for="jumlah" class="form-label">Jumlah Pelanggan</label>
-                        <input 
-                            type="text" 
-                            id="jumlah" 
-                            name="jumlah" 
-                            class="form-control"
-                        /><br>
-                        <label for="waktu" class="form-label">Waktu Pemesanan</label>
-                        <input 
-                            type="text" 
-                            id="waktu" 
-                            name="waktu" 
-                            class="form-control"
-                        /><br>
-
-                        <label for="pelayanan" class="form-label">Pelayanan</label>
-                        <select name="pelayanan" id="pelayanan" class="form-select">
-                            <option value="0">Sudah</option>
-                            <option value="1">Belum</option>
-                        </select><br>
-
-                        <div class="text-center">
-                            <input type="submit" class="btn btn-primary" value="Tambah">
-                        </div>
-                    </form>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card border-0 shadow rounded">
+                    <div class="card-body">
+                        <form action="/daftar" method="post">
+                            <div class="form-group">
+                                <label for="nomor" class="form-label">Nomor Meja</label>
+                                <input 
+                                    type="text" 
+                                    id="nomor" 
+                                    name="nomor" 
+                                    class="form-control"
+                                />
+                                <% if (messages.error_nomor) { %>
+                                    <div class="alert alert-danger" role="alert"><%- messages.error_nomor %></div>
+                                <% } %><br>
+                            </div>
+                            <div class="form-group">
+                                <label for="jumlah" class="form-label">Jumlah Pelanggan</label>
+                                <input 
+                                    type="text" 
+                                    id="jumlah" 
+                                    name="jumlah" 
+                                    class="form-control"
+                                />
+                                <% if (messages.error_jumlah) { %>
+                                    <div class="alert alert-danger" role="alert"><%- messages.error_jumlah %></div>
+                                <% } %><br>
+                            </div>
+                            <div>
+                                <label for="pelayanan" class="form-label">Pelayanan</label>
+                                <select name="pelayanan" id="pelayanan" class="form-select">
+                                    <option value="0">Sudah</option>
+                                    <option value="1">Belum</option>
+                                </select><br>
+                            </div>
+                            <button type="submit" class="btn btn-primary">TAMBAH</button>
+                            <a href="/menu" class="btn btn-md btn-secondary">BATAL</a>
+                        </form>
+                    </div>
                 </div>
             </div>
- 
+        </div>
     </div>
     <%- include('../templat/body'); %>
 </body>
 </html>
+

@@ -23,6 +23,7 @@ var connection = mysql.createConnection({
 /////////////////////////////////////////////////
 
 //index
+
 router.get('/', function (req, res, next) {
     connection.query('SELECT * FROM menu ORDER BY id desc', function (err, rows) {
         if (err) {
@@ -54,28 +55,20 @@ router.post('/', function(req, res, next) {
 
     if(nama.length === 0) {
         errors = true;
-        req.flash('error_nama', "Silahkan Masukkan Nama")
-        res.render('menu/new', {
-            nama: nama,
-            harga: harga
-        })
+        req.flash('error_nama', "Silahkan Masukkan Nama")  
     }
     
     if(harga.length === 0) {
         errors = true;
         req.flash('error_harga', "Silahkan Masukkan Harga");
+    }
+
+    if(errors) {
         res.render('menu/new', {
             nama: nama,
             harga: harga
         })
     }
-
-    // if(errors) {
-    //     req.render('menu/new', {
-    //         nama: nama,
-    //         harga: harga
-    //     })
-    // }
 
     if(!errors) {
 
@@ -88,8 +81,8 @@ router.post('/', function(req, res, next) {
             if (err) {
                 req.flash('error', err)
                 res.render('menu/new', {
-                    title: formData.title,
-                    content: formData.content                    
+                    nama: formData.nama,
+                    harga: formData.harga                    
                 })
             } else {                
                 req.flash('success', 'Data Berhasil Ditambah!');
@@ -129,21 +122,19 @@ router.post('/:id/edit', function(req, res, next){
 
     if(nama.length === 0) {
         errors = true;
-        req.flash('error_nama', "Silahkan Masukkan Nama");
-        res.render('menu/edit', {
-            id:         req.params.id,
-            nama:       nama,
-            harga:      harga
-        })
+        req.flash('error_nama', "Silahkan Masukkan Nama")
     }
 
-    if(harga.length === 0) {
+    if(harga.length === 0 || harga < 1000) {
         errors = true;
-        req.flash('error_harga', "Silahkan Masukkan Harga");
+        req.flash('error_harga', "Silahkan Masukkan Harga")
+    }
+
+    if(errors) {
         res.render('menu/edit', {
-            id:         req.params.id,
-            nama:       nama,
-            harga:      harga
+            id: req.params.id,
+            nama: nama,
+            harga: harga
         })
     }
 
@@ -170,7 +161,7 @@ router.post('/:id/edit', function(req, res, next){
     }
 });
 
-//Delete
+// Delete
 
 router.get('/(:id)/delete', function(req, res, next){
     let id = req.params.id;
