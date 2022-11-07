@@ -27,7 +27,9 @@ var connection = mysql.createConnection({
 //index
 
 router.get('/', function (req, res, next) {
-    connection.query('SELECT * FROM pelanggan ORDER BY id desc', function (err, rows) {
+    let take = req.query.take ?? 10 
+    let skip = req.query.skip ?? 0 
+    connection.query(`SELECT * FROM pelanggan ORDER BY id desc LIMIT ${take} OFFSET ${skip}`, function (err, rows) {
         if (err) {
             req.flash('error', err);
             res.render('daftar', {
@@ -64,7 +66,7 @@ router.post('/', function(req, res, next) {
         req.flash('error_nomor', "Silahkan Isi Nomor Meja")
     }
 
-    if(nomor.length === 0) {
+    if(jumlah.length === 0) {
         errors = true;
         req.flash('error_jumlah', "Silahkan Isi Jumlah Pengunjung")
     }

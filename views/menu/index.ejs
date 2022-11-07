@@ -22,6 +22,20 @@
                 <% } %>
 
                 <div class="card border-0 shadow rounded">
+                    <div>
+                        <div class="row">
+                            <div class="col">
+                                <h2>RESTO</h2>
+                            </div>
+                            <div class="col">
+                                <div class="text-end">
+                                    <a href="menu" class="btn btn-sm btn-light mb-3">MENU</a>
+                                    <a href="daftar" class="btn btn-sm btn-light mb-3">DAFTAR</a>
+                                    <a href="retail" class="btn btn-sm btn-light mb-3">RETAIL</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <h1 class="text-center">MENU</h1>
                         <a href="menu/new" class="btn btn-md btn-success mb-3">TAMBAH</a>
@@ -59,7 +73,13 @@
                                     </tr>
                                 <% } %>    
                             </tbody>
-                        </table>  
+                        </table> 
+                        
+                        <div>
+                            <a href="/menu?take=10&skip=0">1</a>
+                            <a href="/menu?teke=10&skip=10">2</a>
+                        </div>
+                    
                     </div>
                 </div>
             </div>

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit</title>
     <%- include('../templat/head'); %>
+    <%- include('../templat/number'); %>
 </head>
 <body style="background: lightgray">
     <div class="container mt-5">
@@ -36,8 +37,9 @@
                                     type="text" 
                                     id="harga"
                                     name="harga" 
-                                    class="form-control"
+                                    class="form-control number-only"
                                     value="<%= harga %>"
+                                    placeholder="Isikan Angka"
                                 />
                                 <% if (messages.error_harga) { %>
                                 <div class="alert alert-danger" role="alert"><%- messages.error_harga %></div>

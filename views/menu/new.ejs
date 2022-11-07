@@ -6,18 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New</title>
     <%- include('../templat/head'); %>
-    <script>
-        onload =function(){ 
-            var ele = document.querySelectorAll('.number-only')[0];
-            ele.onkeypress = function(e) {
-                if(isNaN(this.value+""+String.fromCharCode(e.charCode)))
-                    return false;
-            }
-            ele.onpaste = function(e){
-                e.preventDefault();
-            }
-        }
-    </script>
+    <%- include('../templat/number'); %>
 </head>
 <body style="background: lightgray">
     <div class="container mt-5">

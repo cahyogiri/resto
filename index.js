@@ -38,32 +38,14 @@ app.use('/daftar', pelanggan);
 const retail = require('./route/retail.js');
 app.use('/retail', retail);
 
+const latihan = require('./route/latihan.js');
+app.use('/latihan', latihan);
 
-app.use('/menu', menu);
-app.use('/pelanggan', pelanggan);
-app.use('/retail', retail)
+
 
 app.get('/', function(req, res){
     res.render("home/index");
 });
-
-// catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//     next(createError(404));
-//   });
-  
-// error handler
-// app.use(function(err, req, res, next) {
-//     // set locals, only providing error in development
-//     res.locals.message = err.message;
-//     res.locals.error = req.app.get('env') === 'development' ? err : {};
-  
-//     // render the error page
-//     res.status(err.status || 500);
-//     res.render('error');
-// });
-  
-
 
 
 
