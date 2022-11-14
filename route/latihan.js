@@ -45,6 +45,17 @@ router.get('/x2', function(req, res){
 });
 
 router.get('/x3', function(re, res) {
+    let x3 = ''
+
+    for(let i = 0; i < 5; i++) {
+        if(i % 2 == 0) {
+            console.log('x')
+        }else{
+        if(i % 2 != 0) {
+            console.log('xxxxx')
+            }
+        }
+    }   
     res.render("latihan/x3", {
         x3 : x3
     })
